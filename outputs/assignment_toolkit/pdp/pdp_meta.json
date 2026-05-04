@@ -1,0 +1,7 @@
+{
+  "features": [
+    "lw1_total_cyano_mean",
+    "lw1_total_cyano_max"
+  ],
+  "png": "outputs/assignment_toolkit/pdp/pdp_top2_lgb_regression.png"
+}

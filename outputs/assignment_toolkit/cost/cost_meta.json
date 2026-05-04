@@ -1,0 +1,7 @@
+{
+  "weights": {
+    "false_positive": 1.0,
+    "false_negative": 3.0
+  },
+  "csv": "cost/threshold_cost_operational.csv"
+}

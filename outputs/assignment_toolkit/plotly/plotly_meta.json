@@ -1,0 +1,4 @@
+{
+  "prob_html": "outputs/assignment_toolkit/plotly/holdout_prob_alert.html",
+  "cyano_html": "outputs/assignment_toolkit/plotly/holdout_pred_cyano.html"
+}

@@ -1,0 +1,7 @@
+{
+  "status": "Optimal",
+  "monitor_intensive": 1,
+  "treatment_active": 0,
+  "objective_cost": 10.0,
+  "note": "실제 과제에서는 예측 확률·유입·단계에 따라 제약을 두고 선형화한 뒤 LP/MIP로 확장 가능"
+}

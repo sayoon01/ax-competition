@@ -1,0 +1,34 @@
+{
+  "input_csv": "/home/keti_spark1/yune/ax-competition/finaldata_say.csv",
+  "random_forest_classifier_stage": {
+    "accuracy": 0.6929824561403509,
+    "f1_macro": 0.5173163538368762
+  },
+  "random_forest_regressor_log1p_cyano": {
+    "r2": 0.9629170437876495,
+    "mae_log": 0.5631039681510696,
+    "mae_cells_approx": 4799.314473189832
+  },
+  "xgboost_gridsearch_stage": {
+    "best_params": {
+      "colsample_bytree": 0.85,
+      "learning_rate": 0.03,
+      "max_depth": 6,
+      "n_estimators": 200,
+      "subsample": 0.85
+    },
+    "best_cv_f1_macro": 0.7673623436510938,
+    "holdout_accuracy": 0.6973684210526315,
+    "holdout_f1_macro": 0.5304646057040038
+  },
+  "lstm_weekly_sequence": {
+    "lstm_mae_log": 1.2682405710220337,
+    "lstm_rmse_log": 1.6365618573650609,
+    "lstm_r2_log": 0.8205393552780151,
+    "lstm_mae_cells_approx": 8272.2021484375,
+    "lstm_epochs_ran": 17,
+    "lstm_n_train": 1318,
+    "lstm_n_test": 233,
+    "lstm_features": 19
+  }
+}

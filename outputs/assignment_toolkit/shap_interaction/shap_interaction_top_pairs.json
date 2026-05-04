@@ -1,0 +1,65 @@
+{
+  "n_sample": 120,
+  "top_pairs": [
+    {
+      "f1": "lw1_total_cyano_max",
+      "f2": "lw1_total_cyano_mean",
+      "mean_abs_interaction": 0.17746195110481036
+    },
+    {
+      "f1": "lw1_total_cyano_mean",
+      "f2": "lw4_mean_DO(㎎/L)_mean",
+      "mean_abs_interaction": 0.059491250880146694
+    },
+    {
+      "f1": "lw1_total_cyano_mean",
+      "f2": "lw2_mean_수온(℃)_mean",
+      "mean_abs_interaction": 0.05775019474891752
+    },
+    {
+      "f1": "lw1_total_cyano_mean",
+      "f2": "lw4_mean_일강수_주합_mm",
+      "mean_abs_interaction": 0.04941111268193799
+    },
+    {
+      "f1": "lw1_total_cyano_mean",
+      "f2": "lw4_slope_microcystis_mean",
+      "mean_abs_interaction": 0.03800285931377398
+    },
+    {
+      "f1": "lw1_total_cyano_mean",
+      "f2": "lw1_수온(℃)_mean",
+      "mean_abs_interaction": 0.035907195665308166
+    },
+    {
+      "f1": "lw1_total_cyano_max",
+      "f2": "lw2_mean_수온(℃)_mean",
+      "mean_abs_interaction": 0.03272759194205927
+    },
+    {
+      "f1": "lw1_total_cyano_max",
+      "f2": "lw2_mean_total_cyano_mean",
+      "mean_abs_interaction": 0.029524419347784474
+    },
+    {
+      "f1": "lw1_total_cyano_max",
+      "f2": "lw4_mean_일강수_주합_mm",
+      "mean_abs_interaction": 0.02931697242469789
+    },
+    {
+      "f1": "lw1_total_cyano_max",
+      "f2": "lw4_mean_DO(㎎/L)_mean",
+      "mean_abs_interaction": 0.022378108452086008
+    },
+    {
+      "f1": "lw1_total_cyano_mean",
+      "f2": "lw2_mean_일강수_주합_mm",
+      "mean_abs_interaction": 0.022103344193351988
+    },
+    {
+      "f1": "lw1_total_cyano_max",
+      "f2": "lw1_수온(℃)_mean",
+      "mean_abs_interaction": 0.018125527035605233
+    }
+  ]
+}

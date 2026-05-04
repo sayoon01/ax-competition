@@ -1,0 +1,56 @@
+{
+  "source": "/home/keti_spark1/yune/ax-competition/finaldata_say.csv",
+  "입력_데이터": "finaldata_say.csv 만 사용 (원본 finaldata.csv 는 이 스크립트에서 읽지 않음)",
+  "weekly_supervised_rows": 1512,
+  "holdout_ratio": 0.15,
+  "feature_count": 76,
+  "metrics": {
+    "regression_log1p_cyano": {
+      "r2": 0.9568324079507321,
+      "mae_log": 0.6039855224091847,
+      "mae_cells_approx": 4172.678838388159
+    },
+    "classification_stage": {
+      "accuracy": 0.7236842105263158,
+      "f1_macro": 0.5707870934633396,
+      "report": "              precision    recall  f1-score   support\n\n         미발령       0.94      0.99      0.96       124\n          관심       0.38      0.81      0.52        42\n          경계       1.00      0.13      0.23        62\n\n    accuracy                           0.72       228\n   macro avg       0.77      0.64      0.57       228\nweighted avg       0.85      0.72      0.68       228\n"
+    },
+    "classification_stage_ensemble_lgb_xgb": {
+      "accuracy": 0.7236842105263158,
+      "f1_macro": 0.5707870934633396
+    },
+    "binary_exogenous_only_lgb": {
+      "n_features": 49,
+      "roc_auc": 0.9754962779156328,
+      "recall_alert": 0.75
+    },
+    "binary_lgb": {
+      "roc_auc": 0.9959677419354839,
+      "accuracy": 0.956140350877193,
+      "recall_alert": 0.9134615384615384,
+      "precision_alert": 0.9895833333333334
+    },
+    "binary_xgb": {
+      "roc_auc": 0.9962003722084367
+    },
+    "binary_ensemble_avg_proba_lgb_xgb": {
+      "roc_auc": 0.9958901985111662,
+      "accuracy": 0.9649122807017544,
+      "f1": 0.9603960396039604,
+      "recall_alert": 0.9326923076923077,
+      "precision_alert": 0.9897959183673469
+    },
+    "binary_calibrated_isotonic_lgb": {
+      "roc_auc": 0.9948045905707196,
+      "accuracy": 0.9649122807017544,
+      "f1": 0.9607843137254902,
+      "recall_alert": 0.9423076923076923,
+      "precision_alert": 0.98
+    },
+    "operational_boundary_f1": 0.22857142857142856,
+    "시차_특성_힌트_이진LGB": {
+      "요약": "4주평균 4회, 직전1주(lw1) 3회, 4주추세(slope) 2회, 기타 1회",
+      "상위5특성": "lw1_total_cyano_mean, lw1_total_cyano_max, lw4_mean_일강수_주합_mm, lw4_std_DO(㎎/L)_mean, lw1_수온(℃)_mean"
+    }
+  }
+}

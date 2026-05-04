@@ -1,0 +1,95 @@
+{
+  "input": "/home/keti_spark1/yune/ax-competition/finaldata_say.csv",
+  "holdout_ratio": 0.15,
+  "holdout_n": 228,
+  "model": "LightGBM (stage/reg/binary) — weekly_say와 유사 설정",
+  "data_quality_daily": {
+    "n_rows": 10920,
+    "median_gap_days_by_site": {
+      "문의": 1.0,
+      "추동": 1.0,
+      "회남": 1.0
+    },
+    "missing_rate_top25": {
+      "일조시간 합계(hr)": 0.9997,
+      "투명도": 0.9997,
+      "roll7_mean_투명도": 0.9997,
+      "일강수량(mm)": 0.5187,
+      "roll7_mean_일강수량(mm)": 0.0552,
+      "wow_delta_total_cyano": 0.028,
+      "total_cyano": 0.025,
+      "microcystis": 0.025,
+      "anabaena": 0.025,
+      "oscillatoria": 0.025,
+      "aphanizomenon": 0.025,
+      "roll7_mean_total_cyano": 0.0184,
+      "target_발령단계_D7_코드": 0.0019,
+      "wow_delta_Chl-a (㎎/㎥)": 0.0019,
+      "wow_delta_수온(℃)": 0.0019,
+      "조사일": 0.0,
+      "roll7_mean_탁도": 0.0,
+      "roll7_mean_DO(㎎/L)": 0.0,
+      "roll7_mean_Chl-a (㎎/㎥)": 0.0,
+      "roll7_mean_pH": 0.0,
+      "roll7_mean_총방류량(㎥/s)": 0.0,
+      "roll7_mean_수온(℃)": 0.0,
+      "target_발령단계_차주7일_최고단계_코드": 0.0,
+      "roll7_mean_유입량(㎥/s)": 0.0,
+      "유입_방류_차": 0.0
+    },
+    "발령단계코드_vs_세포수임계단계_불일치율": 0.0
+  },
+  "persistence_vs_model": {
+    "stage_accuracy_persistence": 0.8596491228070176,
+    "stage_accuracy_lgb": 0.7236842105263158,
+    "stage_accuracy_delta_lgb_minus_persist": -0.136,
+    "cyano_mae_cells_persistence_prev_week": 4227.976127835558,
+    "cyano_mae_cells_lgb_log1p": 4172.678838387935,
+    "reg_r2_log1p_persistence": 0.8116865146049912,
+    "reg_r2_log1p_lgb": 0.9568324079507335
+  },
+  "lookback_ablation": {
+    "L3": {
+      "n_rows": 1515,
+      "n_holdout": 228,
+      "stage_accuracy": 0.7324561403508771,
+      "stage_f1_macro": 0.6011229157960226
+    },
+    "L4": {
+      "n_rows": 1512,
+      "n_holdout": 228,
+      "stage_accuracy": 0.7236842105263158,
+      "stage_f1_macro": 0.5707870934633396
+    },
+    "L5": {
+      "n_rows": 1509,
+      "n_holdout": 228,
+      "stage_accuracy": 0.6973684210526315,
+      "stage_f1_macro": 0.5198711907702283
+    }
+  },
+  "reservoir_level": {
+    "note": "홀드아웃 행의 4주 평균 저수율(lw4_mean_저수율)으로 삼분위 구간",
+    "by_reservoir_level_tertile": [
+      {
+        "bucket": "low",
+        "n": 75,
+        "stage_accuracy": 0.6666666666666666,
+        "binary_recall_0.5": 0.8787878787878788
+      },
+      {
+        "bucket": "mid",
+        "n": 75,
+        "stage_accuracy": 0.68,
+        "binary_recall_0.5": 1.0
+      },
+      {
+        "bucket": "high",
+        "n": 78,
+        "stage_accuracy": 0.8205128205128205,
+        "binary_recall_0.5": 0.8387096774193549
+      }
+    ]
+  },
+  "outputs_dir": "/home/keti_spark1/yune/ax-competition/outputs/analysis"
+}

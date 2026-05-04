@@ -1,0 +1,6 @@
+{
+  "rows": 10920,
+  "cols": 66,
+  "engine": "ydata-profiling",
+  "html": "outputs/assignment_toolkit/profile/say_profile.html"
+}

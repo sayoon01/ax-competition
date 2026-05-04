@@ -1,0 +1,9 @@
+{
+  "stage_accuracy_persistence": 0.8596491228070176,
+  "stage_accuracy_lgb": 0.7236842105263158,
+  "stage_accuracy_delta_lgb_minus_persist": -0.136,
+  "cyano_mae_cells_persistence_prev_week": 4227.976127835558,
+  "cyano_mae_cells_lgb_log1p": 4172.678838387935,
+  "reg_r2_log1p_persistence": 0.8116865146049912,
+  "reg_r2_log1p_lgb": 0.9568324079507335
+}

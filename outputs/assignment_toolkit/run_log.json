@@ -1,0 +1,139 @@
+{
+  "step1_profile": {
+    "rows": 10920,
+    "cols": 66,
+    "engine": "ydata-profiling",
+    "html": "outputs/assignment_toolkit/profile/say_profile.html"
+  },
+  "step2_baselines": {
+    "by_site": [
+      {
+        "채수위치": "문의",
+        "n": 521,
+        "holdout_n": 79,
+        "mae_naive_persist": 2549.986046009359,
+        "mae_exp_smooth_1step": 6910.854267797043,
+        "exp_smooth_error": null
+      },
+      {
+        "채수위치": "추동",
+        "n": 521,
+        "holdout_n": 79,
+        "mae_naive_persist": 2179.319613888845,
+        "mae_exp_smooth_1step": 6569.756931243668,
+        "exp_smooth_error": null
+      },
+      {
+        "채수위치": "회남",
+        "n": 521,
+        "holdout_n": 79,
+        "mae_naive_persist": 7326.433879489334,
+        "mae_exp_smooth_1step": 11188.009295356322,
+        "exp_smooth_error": null
+      }
+    ],
+    "note": "naive는 검증 구간에서 직전 값으로 다음 주를 맞춘 주간 persistence MAE"
+  },
+  "step3_quantile": {
+    "pinball_holdout": {
+      "alpha_0.1": 0.1428592809262376,
+      "alpha_0.5": 0.3037579422315124,
+      "alpha_0.9": 0.19701934790346007
+    },
+    "interval_10_90_coverage": 0.5219298245614035,
+    "interval_10_90_mean_width_log": 1.5194117238461415,
+    "median_mae_log": 0.6075158844630248,
+    "median_mae_cells_approx": 4623.8577743905535
+  },
+  "step4_pdp": {
+    "features": [
+      "lw1_total_cyano_mean",
+      "lw1_total_cyano_max"
+    ],
+    "png": "outputs/assignment_toolkit/pdp/pdp_top2_lgb_regression.png"
+  },
+  "step5_cost": {
+    "csv": "cost/threshold_cost_operational.csv",
+    "png": "cost/threshold_cost_curve.png",
+    "weights": {
+      "false_positive": 1.0,
+      "false_negative": 3.0
+    }
+  },
+  "step6_pulp": {
+    "status": "Optimal",
+    "monitor_intensive": 1,
+    "treatment_active": 0,
+    "objective_cost": 10.0,
+    "note": "실제 과제에서는 예측 확률·유입·단계에 따라 제약을 두고 선형화한 뒤 LP/MIP로 확장 가능"
+  },
+  "step7_plotly": {
+    "prob_html": "outputs/assignment_toolkit/plotly/holdout_prob_alert.html",
+    "cyano_html": "outputs/assignment_toolkit/plotly/holdout_pred_cyano.html"
+  },
+  "step8_shap_interaction": {
+    "n_sample": 120,
+    "top_pairs": [
+      {
+        "f1": "lw1_total_cyano_max",
+        "f2": "lw1_total_cyano_mean",
+        "mean_abs_interaction": 0.17746195110481036
+      },
+      {
+        "f1": "lw1_total_cyano_mean",
+        "f2": "lw4_mean_DO(㎎/L)_mean",
+        "mean_abs_interaction": 0.059491250880146694
+      },
+      {
+        "f1": "lw1_total_cyano_mean",
+        "f2": "lw2_mean_수온(℃)_mean",
+        "mean_abs_interaction": 0.05775019474891752
+      },
+      {
+        "f1": "lw1_total_cyano_mean",
+        "f2": "lw4_mean_일강수_주합_mm",
+        "mean_abs_interaction": 0.04941111268193799
+      },
+      {
+        "f1": "lw1_total_cyano_mean",
+        "f2": "lw4_slope_microcystis_mean",
+        "mean_abs_interaction": 0.03800285931377398
+      },
+      {
+        "f1": "lw1_total_cyano_mean",
+        "f2": "lw1_수온(℃)_mean",
+        "mean_abs_interaction": 0.035907195665308166
+      },
+      {
+        "f1": "lw1_total_cyano_max",
+        "f2": "lw2_mean_수온(℃)_mean",
+        "mean_abs_interaction": 0.03272759194205927
+      },
+      {
+        "f1": "lw1_total_cyano_max",
+        "f2": "lw2_mean_total_cyano_mean",
+        "mean_abs_interaction": 0.029524419347784474
+      },
+      {
+        "f1": "lw1_total_cyano_max",
+        "f2": "lw4_mean_일강수_주합_mm",
+        "mean_abs_interaction": 0.02931697242469789
+      },
+      {
+        "f1": "lw1_total_cyano_max",
+        "f2": "lw4_mean_DO(㎎/L)_mean",
+        "mean_abs_interaction": 0.022378108452086008
+      },
+      {
+        "f1": "lw1_total_cyano_mean",
+        "f2": "lw2_mean_일강수_주합_mm",
+        "mean_abs_interaction": 0.022103344193351988
+      },
+      {
+        "f1": "lw1_total_cyano_max",
+        "f2": "lw1_수온(℃)_mean",
+        "mean_abs_interaction": 0.018125527035605233
+      }
+    ]
+  }
+}

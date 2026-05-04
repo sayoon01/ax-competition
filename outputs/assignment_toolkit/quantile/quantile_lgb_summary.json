@@ -1,0 +1,11 @@
+{
+  "pinball_holdout": {
+    "alpha_0.1": 0.1428592809262376,
+    "alpha_0.5": 0.3037579422315124,
+    "alpha_0.9": 0.19701934790346007
+  },
+  "interval_10_90_coverage": 0.5219298245614035,
+  "interval_10_90_mean_width_log": 1.5194117238461415,
+  "median_mae_log": 0.6075158844630248,
+  "median_mae_cells_approx": 4623.8577743905535
+}

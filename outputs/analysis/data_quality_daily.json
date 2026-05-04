@@ -1,0 +1,36 @@
+{
+  "n_rows": 10920,
+  "median_gap_days_by_site": {
+    "문의": 1.0,
+    "추동": 1.0,
+    "회남": 1.0
+  },
+  "missing_rate_top25": {
+    "일조시간 합계(hr)": 0.9997,
+    "투명도": 0.9997,
+    "roll7_mean_투명도": 0.9997,
+    "일강수량(mm)": 0.5187,
+    "roll7_mean_일강수량(mm)": 0.0552,
+    "wow_delta_total_cyano": 0.028,
+    "total_cyano": 0.025,
+    "microcystis": 0.025,
+    "anabaena": 0.025,
+    "oscillatoria": 0.025,
+    "aphanizomenon": 0.025,
+    "roll7_mean_total_cyano": 0.0184,
+    "target_발령단계_D7_코드": 0.0019,
+    "wow_delta_Chl-a (㎎/㎥)": 0.0019,
+    "wow_delta_수온(℃)": 0.0019,
+    "조사일": 0.0,
+    "roll7_mean_탁도": 0.0,
+    "roll7_mean_DO(㎎/L)": 0.0,
+    "roll7_mean_Chl-a (㎎/㎥)": 0.0,
+    "roll7_mean_pH": 0.0,
+    "roll7_mean_총방류량(㎥/s)": 0.0,
+    "roll7_mean_수온(℃)": 0.0,
+    "target_발령단계_차주7일_최고단계_코드": 0.0,
+    "roll7_mean_유입량(㎥/s)": 0.0,
+    "유입_방류_차": 0.0
+  },
+  "발령단계코드_vs_세포수임계단계_불일치율": 0.0
+}

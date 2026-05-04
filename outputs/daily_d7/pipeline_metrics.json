@@ -1,0 +1,26 @@
+{
+  "input_csv": "/home/keti_spark1/yune/ax-competition/finaldata_say.csv",
+  "input_rows": 10920,
+  "modeling_rows": 10899,
+  "target": "target_발령단계_D7_코드",
+  "holdout_ratio": 0.15,
+  "features_n": 58,
+  "classes": [
+    "미발령",
+    "관심",
+    "경계"
+  ],
+  "metrics": {
+    "lightgbm": {
+      "accuracy": 0.7529051987767584,
+      "f1_macro": 0.5518900558540262,
+      "report": "              precision    recall  f1-score   support\n\n         미발령       0.95      0.98      0.96       960\n          관심       0.43      0.84      0.57       322\n          경계       1.00      0.07      0.12       353\n\n    accuracy                           0.75      1635\n   macro avg       0.79      0.63      0.55      1635\nweighted avg       0.86      0.75      0.70      1635\n"
+    },
+    "xgboost": {
+      "accuracy": 0.7486238532110092,
+      "f1_macro": 0.5445098313244081,
+      "report": "              precision    recall  f1-score   support\n\n         미발령       0.94      0.98      0.96       960\n          관심       0.43      0.82      0.56       322\n          경계       0.95      0.06      0.11       353\n\n    accuracy                           0.75      1635\n   macro avg       0.77      0.62      0.54      1635\nweighted avg       0.84      0.75      0.70      1635\n"
+    }
+  },
+  "발령단계_vs_세포수_일치율": 1.0
+}

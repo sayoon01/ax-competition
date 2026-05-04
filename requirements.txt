@@ -1,0 +1,24 @@
+# 조류경보 예측 레포 — 핵심 파이프라인 + 과제 보강 툴킷
+# 설치: pip install -r requirements.txt
+# pyenv 3.14에서 "No module named _ctypes" → docs/PYTHON_ENV.md (권장: python3.10)
+# Python 3.14: ydata-profiling 은 아래 마커로 제외됨(휠 없음). pipeline_assignment_toolkit step① 은 간이 HTML로 대체.
+# 일부 단계는 패키지 없으면 자동 스킵(pulp 등)
+
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+matplotlib>=3.7
+lightgbm>=4.0
+xgboost>=2.0
+shap>=0.44
+openpyxl>=3.1
+
+# 과제 보강 툴킷 (pipeline_assignment_toolkit.py)
+statsmodels>=0.14
+plotly>=5.18
+pulp>=2.7
+# 공식 휠은 Python<3.14 만. 3.14에서는 이 줄이 무시되고, 프로파일은 툴킷이 자체 HTML 생성
+ydata-profiling>=4.6.0; python_version < "3.14"
+
+# 선택: 주간 extras LSTM
+# tensorflow>=2.15

@@ -1,0 +1,20 @@
+{
+  "L3": {
+    "n_rows": 1515,
+    "n_holdout": 228,
+    "stage_accuracy": 0.7324561403508771,
+    "stage_f1_macro": 0.6011229157960226
+  },
+  "L4": {
+    "n_rows": 1512,
+    "n_holdout": 228,
+    "stage_accuracy": 0.7236842105263158,
+    "stage_f1_macro": 0.5707870934633396
+  },
+  "L5": {
+    "n_rows": 1509,
+    "n_holdout": 228,
+    "stage_accuracy": 0.6973684210526315,
+    "stage_f1_macro": 0.5198711907702283
+  }
+}

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>대청댐 조류 위험 조기경보 대시보드</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c1222;
+      --surface: #141c2f;
+      --surface2: #1a2540;
+      --border: rgba(94, 234, 212, 0.15);
+      --text: #e8f1ff;
+      --muted: #8ba3c7;
+      --accent: #2dd4bf;
+      --accent2: #38bdf8;
+      --warn: #fbbf24;
+      --danger: #f87171;
+      --ok: #4ade80;
+      --radius: 14px;
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans KR", system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(45,212,191,.12), transparent),
+                  radial-gradient(800px 400px at 90% 0%, rgba(56,189,248,.1), transparent),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 20px 60px; }
+    header {
+      display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
+      gap: 16px; margin-bottom: 32px;
+    }
+    h1 {
+      font-size: 1.65rem; font-weight: 700; margin: 0;
+      letter-spacing: -0.02em;
+      background: linear-gradient(120deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .tagline { color: var(--muted); font-size: 0.95rem; max-width: 520px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px; border-radius: 999px;
+      background: var(--surface2); border: 1px solid var(--border);
+      font-size: 0.8rem; color: var(--muted);
+    }
+    .pill strong { color: var(--accent); font-weight: 600; }
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 22px 26px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow);
+    }
+    h2 {
+      font-size: 1.05rem; font-weight: 600; margin: 0 0 16px;
+      color: var(--accent); display: flex; align-items: center; gap: 10px;
+    }
+    h2 span.num {
+      display: inline-flex; width: 26px; height: 26px; border-radius: 8px;
+      background: rgba(45,212,191,.15); color: var(--accent); font-size: 0.75rem;
+      align-items: center; justify-content: center; font-weight: 700;
+    }
+    .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 18px 16px;
+    }
+    .card h3 { margin: 0 0 12px; font-size: 1.1rem; font-weight: 600; }
+    .gauge {
+      height: 10px; border-radius: 6px; background: rgba(255,255,255,.06);
+      overflow: hidden; margin: 10px 0 6px;
+    }
+    .gauge > i {
+      display: block; height: 100%; border-radius: 6px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transition: width .6s ease;
+    }
+    .meta { font-size: 0.82rem; color: var(--muted); }
+    .band {
+      display: inline-block; margin-top: 10px; padding: 4px 10px; border-radius: 8px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+    .band-ok { background: rgba(74,222,128,.15); color: var(--ok); }
+    .band-warn { background: rgba(251,191,36,.12); color: var(--warn); }
+    .band-alert { background: rgba(248,113,113,.12); color: #fca5a5; }
+    .band-high { background: rgba(248,113,113,.22); color: var(--danger); }
+    .bar-row { margin-bottom: 12px; }
+    .bar-row label { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 4px; color: var(--muted); }
+    .bar-row label b { color: var(--text); }
+    .bar-bg { height: 8px; border-radius: 5px; background: rgba(255,255,255,.06); overflow: hidden; }
+    .bar-fg { height: 100%; border-radius: 5px; background: linear-gradient(90deg, #0ea5e9, var(--accent)); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 500; font-size: 0.76rem; text-transform: uppercase; letter-spacing: .04em; }
+    .scenario-list { display: flex; flex-direction: column; gap: 12px; }
+    .sc-item {
+      border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px;
+      background: rgba(0,0,0,.2);
+    }
+    .sc-item h4 { margin: 0 0 6px; font-size: 0.92rem; color: var(--accent2); }
+    .sc-item p { margin: 0; font-size: 0.82rem; color: var(--muted); }
+    .sc-item ul { margin: 8px 0 0; padding-left: 18px; color: var(--text); font-size: 0.82rem; }
+    .cost-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    .cost-item {
+      padding: 14px; border-radius: 10px; border: 1px dashed var(--border);
+      font-size: 0.84rem; color: var(--muted);
+    }
+    .cost-item strong { color: var(--accent); display: block; margin-bottom: 6px; font-size: 0.88rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .chip {
+      padding: 6px 12px; border-radius: 999px; background: rgba(56,189,248,.1);
+      border: 1px solid rgba(56,189,248,.25); font-size: 0.78rem; color: var(--muted);
+    }
+    html { scroll-behavior: smooth; }
+    section { scroll-margin-top: 72px; }
+    .dash-nav {
+      position: sticky; top: 0; z-index: 40;
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      padding: 12px 0 16px; margin: -8px 0 8px;
+      background: linear-gradient(180deg, rgba(12,18,34,.92) 70%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(94,234,212,.08);
+    }
+    .dash-nav a {
+      font-size: 0.78rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; padding: 8px 12px; border-radius: 999px;
+      border: 1px solid transparent; transition: .15s ease;
+    }
+    .dash-nav a:hover { color: var(--text); border-color: var(--border); background: var(--surface2); }
+    .meta-fold { margin: 0 0 14px; border-radius: 10px; border: 1px solid var(--border); background: rgba(0,0,0,.15); }
+    .meta-fold summary {
+      cursor: pointer; list-style: none; padding: 10px 14px; font-size: 0.82rem; color: var(--accent2); font-weight: 600;
+    }
+    .meta-fold summary::-webkit-details-marker { display: none; }
+    .meta-fold summary::after { content: " ▼"; font-size: 0.65rem; opacity: .6; }
+    .meta-fold[open] summary::after { content: " ▲"; }
+    .meta-fold .meta { padding: 0 14px 12px; margin: 0; }
+    .stat-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 4px;
+    }
+    .stat-tile {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 14px 12px; border-left: 3px solid var(--accent2);
+    }
+    .stat-tile .v { font-size: 1.35rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+    .stat-tile .k { font-size: 0.72rem; color: var(--muted); margin-top: 6px; line-height: 1.35; }
+    .site-card-inner { display: flex; gap: 16px; align-items: flex-start; }
+    .donut-wrap {
+      --p: 0; width: 64px; height: 64px; border-radius: 50%; flex-shrink: 0;
+      background: conic-gradient(from -90deg, var(--accent2) calc(var(--p) * 1%), rgba(255,255,255,.07) 0);
+      display: grid; place-items: center;
+    }
+    .donut-wrap span {
+      width: 48px; height: 48px; border-radius: 50%; background: var(--surface2);
+      display: grid; place-items: center; font-size: 0.7rem; font-weight: 700; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .tl-visual { margin-bottom: 18px; }
+    .tl-visual h3 { margin: 0 0 10px; font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .tl-item { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 0.78rem; color: var(--muted); }
+    .tl-track { flex: 1; min-width: 0; height: 10px; border-radius: 6px; background: rgba(255,255,255,.06); overflow: hidden; }
+    .tl-fill { height: 100%; border-radius: 6px; transition: width .5s ease; }
+    .tl-fill.low { background: linear-gradient(90deg, #22c55e, var(--accent)); }
+    .tl-fill.mid { background: linear-gradient(90deg, var(--accent), var(--warn)); }
+    .tl-fill.high { background: linear-gradient(90deg, var(--warn), var(--danger)); }
+    .tl-cap { flex: 0 0 120px; text-align: right; color: var(--text); font-variant-numeric: tabular-nums; }
+    .h2-ico { font-size: 1.1rem; opacity: .9; }
+    .fig-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+    .fig-tab {
+      padding: 10px 18px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--surface2); color: var(--muted); cursor: pointer;
+      font-family: inherit; font-size: 0.84rem; font-weight: 500; transition: .15s ease;
+    }
+    .fig-tab:hover { color: var(--text); border-color: rgba(56,189,248,.35); }
+    .fig-tab.active { color: var(--text); border-color: var(--accent2); background: rgba(56,189,248,.12); }
+    .fig-panel { display: none; }
+    .fig-panel.is-active { display: block; }
+    .fig-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;
+    }
+    .fig-card {
+      margin: 0; border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+      background: rgba(0,0,0,.2);
+    }
+    .fig-card img { width: 100%; height: auto; display: block; vertical-align: middle; }
+    .fig-card figcaption {
+      padding: 10px 12px; font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--border);
+    }
+    footer { text-align: center; color: var(--muted); font-size: 0.75rem; margin-top: 28px; }
+    @media (max-width: 640px) {
+      h1 { font-size: 1.35rem; }
+      .tl-cap { flex-basis: 88px; font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>대청댐 조류 위험 조기경보</h1>
+        <p class="tagline">
+          수집·기상·수문 데이터를 통합한 <strong>다음 주 관심 이상 확률</strong>과
+          <strong>경보 단계 예측</strong>, 시나리오 기반 권고를 한 화면에서 확인합니다.
+          (데이터: <code>finaldata_say.csv</code> 기반 주간 파이프라인 산출물)
+        </p>
+      </div>
+      <div class="pill">
+        <span>선행 예측</span>
+        <strong>다음 주(주 단위)</strong>
+        <span>· D+7 일모델은 별도</span>
+      </div>
+    </header>
+
+    <nav class="dash-nav" aria-label="섹션 이동">
+      <a href="#sec-sites">지점 위험도</a>
+      <a href="#sec-lead">모델 지표</a>
+      <a href="#sec-shap">영향 인자</a>
+      <a href="#sec-figs">그래프</a>
+      <a href="#sec-scenario">시나리오</a>
+      <a href="#sec-cost">비용·리스크</a>
+      <a href="#sec-timeline">타임라인</a>
+    </nav>
+
+    <section id="sec-sites">
+      <h2><span class="num">1</span><span class="h2-ico" aria-hidden="true">◎</span> 지점별 위험도</h2>
+      <details class="meta-fold">
+        <summary>확률·등급이 어떻게 계산되나요?</summary>
+        <p class="meta">확률은 검증 구간 기준 <strong>보정(isotonic)</strong> 또는 앙상블 값을 반영합니다. 등급: 정상 / 주의 / 관심·경계 가능성</p>
+      </details>
+      <div class="grid3" id="site-cards"></div>
+    </section>
+
+    <section id="sec-lead">
+      <h2><span class="num">2</span><span class="h2-ico" aria-hidden="true">◇</span> 1~2주 선행 예측 개요</h2>
+      <details class="meta-fold">
+        <summary>주간 모델이 보는 데이터 범위</summary>
+        <p class="meta">
+          최근 <strong>4주 패널</strong> 특성으로 <strong>다음 주</strong> 발령 단계·세포 수 상한을 추정합니다.
+          일 단위 모델은 <code>outputs/daily_d7/</code> 의 D+7 발령단계 예측을 참고하세요.
+        </p>
+      </details>
+      <div class="stat-grid" id="metric-chips"></div>
+    </section>
+
+    <section id="sec-shap">
+      <h2><span class="num">3</span><span class="h2-ico" aria-hidden="true">≋</span> 영향 인자 설명 (모델 기반 요약)</h2>
+      <details class="meta-fold">
+        <summary>막대 그래프가 의미하는 것</summary>
+        <p class="meta">이진 LightGBM의 특성 중요도 상위를 <strong>시차 유형</strong>으로 묶은 비율입니다. (상세 SHAP: <code>outputs/weekly_say/</code> PNG)</p>
+      </details>
+      <div id="factor-bars"></div>
+      <p class="meta" style="margin-top:14px" id="hint-top"></p>
+    </section>
+
+    <section id="sec-figs">
+      <h2><span class="num">·</span><span class="h2-ico" aria-hidden="true">▣</span> SHAP · 시계열 (산출 PNG)</h2>
+      <p class="meta" style="margin-top:-6px;margin-bottom:14px">
+        빌드 시 <code>outputs/</code> PNG가 <code>dashboard/_figures/</code> 로 복사됩니다.
+        미리보기: <code>python3 -m http.server 8765 --directory dashboard</code> 후 <code>http://127.0.0.1:8765/</code>
+      </p>
+      <div class="fig-tabs" role="tablist" aria-label="그래프 출처">
+        <button type="button" class="fig-tab active" role="tab" aria-selected="true" data-tab="w">주간 (weekly_say)</button>
+        <button type="button" class="fig-tab" role="tab" aria-selected="false" data-tab="d">일 D+7 (daily_d7)</button>
+      </div>
+      <div id="fig-panel-w" class="fig-panel is-active" role="tabpanel"><div class="fig-grid"><figure class="fig-card"><img src="_figures/weekly_say/shap_weekly_regression.png" alt="주간 회귀(log1p 세포수) SHAP" loading="lazy" /><figcaption>주간 회귀(log1p 세포수) SHAP</figcaption></figure><figure class="fig-card"><img src="_figures/weekly_say/shap_weekly_stage.png" alt="주간 발령단계 분류 SHAP" loading="lazy" /><figcaption>주간 발령단계 분류 SHAP</figcaption></figure><figure class="fig-card"><img src="_figures/weekly_say/shap_binary_subset_val_y1.png" alt="이진 모델 SHAP (검증·실제 관심↑)" loading="lazy" /><figcaption>이진 모델 SHAP (검증·실제 관심↑)</figcaption></figure><figure class="fig-card"><img src="_figures/weekly_say/shap_binary_subset_val_y0.png" alt="이진 모델 SHAP (검증·실제 미발령)" loading="lazy" /><figcaption>이진 모델 SHAP (검증·실제 미발령)</figcaption></figure><figure class="fig-card"><img src="_figures/weekly_say/timeseries_prob_alert.png" alt="관심 이상 확률 시계열" loading="lazy" /><figcaption>관심 이상 확률 시계열</figcaption></figure></div></div>
+      <div id="fig-panel-d" class="fig-panel" role="tabpanel"><div class="fig-grid"><figure class="fig-card"><img src="_figures/daily_d7/shap_mean_abs_bar.png" alt="일 단위 평균 |SHAP|" loading="lazy" /><figcaption>일 단위 평균 |SHAP|</figcaption></figure><figure class="fig-card"><img src="_figures/daily_d7/shap_beeswarm_class.png" alt="일 단위 SHAP beeswarm" loading="lazy" /><figcaption>일 단위 SHAP beeswarm</figcaption></figure><figure class="fig-card"><img src="_figures/daily_d7/timeseries_holdout_lightgbm.png" alt="D+7 발령단계 홀드아웃 시계열" loading="lazy" /><figcaption>D+7 발령단계 홀드아웃 시계열</figcaption></figure></div></div>
+    </section>
+
+    <section id="sec-scenario">
+      <h2><span class="num">4</span><span class="h2-ico" aria-hidden="true">▸</span> 시나리오 추천 (최근 검증 구간)</h2>
+      <div class="scenario-list" id="scenario-box"></div>
+    </section>
+
+    <section id="sec-cost">
+      <h2><span class="num">5</span><span class="h2-ico" aria-hidden="true">◆</span> 선제 대응 · 비용·리스크</h2>
+      <div class="cost-grid">
+        <div class="cost-item"><strong>긴급 채수·약품</strong>사전 예측으로 활성탄·응집제 과다 투입 완화 가능</div>
+        <div class="cost-item"><strong>민원·신뢰</strong>조기 안내로 수돗물 불안 완화, 대응 인력 재배치 효율화</div>
+        <div class="cost-item"><strong>운영 리스크</strong>방류·취수 심도 조정 검토 시점을 앞당겨 결정 지원</div>
+      </div>
+    </section>
+
+    <section id="sec-timeline">
+      <h2 style="color:var(--accent2)"><span class="h2-ico" aria-hidden="true">⏱</span> 다음 주 타임라인 (검증 구간 샘플)</h2>
+      <p class="meta" style="margin-top:-6px;margin-bottom:12px">막대 길이 = 관심 이상 확률(%). 표와 동일 데이터입니다.</p>
+      <div class="tl-visual" id="timeline-visual" aria-hidden="true"></div>
+      <div style="overflow-x:auto">
+        <table><thead><tr><th>주 시작</th><th>지점</th><th>관심↑확률(%)</th><th>예측단계</th><th>예측세포수</th></tr></thead><tbody id="timeline-body"></tbody></table>
+      </div>
+    </section>
+
+    <footer>
+      정적 스냅샷 · <code>python3 build_dashboard.py</code> 로 재생성 ·
+      미리보기: <code>python3 -m http.server 8765 --directory dashboard</code> → <code>http://127.0.0.1:8765/</code>
+      (그래프는 <code>_figures/</code> 복사본)
+    </footer>
+  </div>
+
+  <script type="application/json" id="dash-payload">{"weekly_summary": {"rows": 1512, "features": 76, "holdout": 0.15}, "model_metrics": {"regression_log1p_cyano": {"r2": 0.9568324079507321, "mae_log": 0.6039855224091847, "mae_cells_approx": 4172.678838388159}, "classification_stage": {"accuracy": 0.7236842105263158, "f1_macro": 0.5707870934633396, "report": "              precision    recall  f1-score   support\n\n         미발령       0.94      0.99      0.96       124\n          관심       0.38      0.81      0.52        42\n          경계       1.00      0.13      0.23        62\n\n    accuracy                           0.72       228\n   macro avg       0.77      0.64      0.57       228\nweighted avg       0.85      0.72      0.68       228\n"}, "classification_stage_ensemble_lgb_xgb": {"accuracy": 0.7236842105263158, "f1_macro": 0.5707870934633396}, "binary_exogenous_only_lgb": {"n_features": 49, "roc_auc": 0.9754962779156328, "recall_alert": 0.75}, "binary_lgb": {"roc_auc": 0.9959677419354839, "accuracy": 0.956140350877193, "recall_alert": 0.9134615384615384, "precision_alert": 0.9895833333333334}, "binary_xgb": {"roc_auc": 0.9962003722084367}, "binary_ensemble_avg_proba_lgb_xgb": {"roc_auc": 0.9958901985111662, "accuracy": 0.9649122807017544, "f1": 0.9603960396039604, "recall_alert": 0.9326923076923077, "precision_alert": 0.9897959183673469}, "binary_calibrated_isotonic_lgb": {"roc_auc": 0.9948045905707196, "accuracy": 0.9649122807017544, "f1": 0.9607843137254902, "recall_alert": 0.9423076923076923, "precision_alert": 0.98}, "operational_boundary_f1": 0.22857142857142856, "시차_특성_힌트_이진LGB": {"요약": "4주평균 4회, 직전1주(lw1) 3회, 4주추세(slope) 2회, 기타 1회", "상위5특성": "lw1_total_cyano_mean, lw1_total_cyano_max, lw4_mean_일강수_주합_mm, lw4_std_DO(㎎/L)_mean, lw1_수온(℃)_mean"}}, "daily_d7": {"input_csv": "/home/keti_spark1/yune/ax-competition/finaldata_say.csv", "input_rows": 10920, "modeling_rows": 10899, "target": "target_발령단계_D7_코드", "holdout_ratio": 0.15, "features_n": 58, "classes": ["미발령", "관심", "경계"], "metrics": {"lightgbm": {"accuracy": 0.7529051987767584, "f1_macro": 0.5518900558540262, "report": "              precision    recall  f1-score   support\n\n         미발령       0.95      0.98      0.96       960\n          관심       0.43      0.84      0.57       322\n          경계       1.00      0.07      0.12       353\n\n    accuracy                           0.75      1635\n   macro avg       0.79      0.63      0.55      1635\nweighted avg       0.86      0.75      0.70      1635\n"}, "xgboost": {"accuracy": 0.7486238532110092, "f1_macro": 0.5445098313244081, "report": "              precision    recall  f1-score   support\n\n         미발령       0.94      0.98      0.96       960\n          관심       0.43      0.82      0.56       322\n          경계       0.95      0.06      0.11       353\n\n    accuracy                           0.75      1635\n   macro avg       0.77      0.62      0.54      1635\nweighted avg       0.84      0.75      0.70      1635\n"}}, "발령단계_vs_세포수_일치율": 1.0}, "extras": {"input_csv": "/home/keti_spark1/yune/ax-competition/finaldata_say.csv", "random_forest_classifier_stage": {"accuracy": 0.6929824561403509, "f1_macro": 0.5173163538368762}, "random_forest_regressor_log1p_cyano": {"r2": 0.9629170437876495, "mae_log": 0.5631039681510696, "mae_cells_approx": 4799.314473189832}, "xgboost_gridsearch_stage": {"best_params": {"colsample_bytree": 0.85, "learning_rate": 0.03, "max_depth": 6, "n_estimators": 200, "subsample": 0.85}, "best_cv_f1_macro": 0.7673623436510938, "holdout_accuracy": 0.6973684210526315, "holdout_f1_macro": 0.5304646057040038}, "lstm_weekly_sequence": {"lstm_mae_log": 1.2682405710220337, "lstm_rmse_log": 1.6365618573650609, "lstm_r2_log": 0.8205393552780151, "lstm_mae_cells_approx": 8272.2021484375, "lstm_epochs_ran": 17, "lstm_n_train": 1318, "lstm_n_test": 233, "lstm_features": 19}}, "hint_top": "lw1_total_cyano_mean, lw1_total_cyano_max, lw4_mean_일강수_주합_mm, lw4_std_DO(㎎/L)_mean, lw1_수온(℃)_mean", "bars": [{"label": "4주평균", "pct": 40.0}, {"label": "직전1주(lw1)", "pct": 30.0}, {"label": "4주추세(slope)", "pct": 20.0}, {"label": "기타", "pct": 10.0}], "site_cards": [{"site": "문의", "week": "2025-12-22", "p": 0.0, "stage": "정상(미발령)", "cyano": 42.0, "band": "정상", "band_cls": "band-ok"}, {"site": "추동", "week": "2025-12-22", "p": 0.3, "stage": "정상(미발령)", "cyano": 180.0, "band": "정상", "band_cls": "band-ok"}, {"site": "회남", "week": "2025-12-22", "p": 0.0, "stage": "정상(미발령)", "cyano": 4.0, "band": "정상", "band_cls": "band-ok"}], "timeline": [{"채수위치": "문의", "week_start_target": "2025-11-17", "p_alert_ge1_lgb": 0.999930379739337, "p_alert_ge1_ensemble": 0.9970481981590056, "p_alert_ge1_calibrated": 0.9103589340437076, "p_alert_ge1_scenario": 0.9103589340437076, "pred_stage": 1, "pred_cyano_max_approx": 3337.133804429374, "scenarios": [{"id": "S4", "title": "Chl-a·pH 상승", "조건": "클로로필-a 및 pH 상승 추세", "예상": "조류 생체량 증가 신호, 유해남조류 증가 가능성", "권고": ["조류 종 분석 강화", "발령단계 전환 모니터링"]}, {"id": "SX", "title": "모델 기반 위험", "조건": "관심 이상 확률 약 91%, 예측 세포수(대략) 3337 cells/mL", "예상": "다음 주 관심 이상 가능성 상대적으로 큼", "권고": ["해당 지점 수질 모니터링 강화", "취수장 사전 대응·활성탄 등 준비", "방류량 조정 가능성 검토"]}]}, {"채수위치": "추동", "week_start_target": "2025-11-17", "p_alert_ge1_lgb": 0.9999882570260616, "p_alert_ge1_ensemble": 0.9974825377938078, "p_alert_ge1_calibrated": 0.9136633463931495, "p_alert_ge1_scenario": 0.9136633463931495, "pred_stage": 1, "pred_cyano_max_approx": 8474.191967170766, "scenarios": [{"id": "SX", "title": "모델 기반 위험", "조건": "관심 이상 확률 약 91%, 예측 세포수(대략) 8474 cells/mL", "예상": "다음 주 관심 이상 가능성 상대적으로 큼", "권고": ["해당 지점 수질 모니터링 강화", "취수장 사전 대응·활성탄 등 준비", "방류량 조정 가능성 검토"]}]}, {"채수위치": "회남", "week_start_target": "2025-11-17", "p_alert_ge1_lgb": 0.011451017370064343, "p_alert_ge1_ensemble": 0.07525772428027754, "p_alert_ge1_calibrated": 0.25268817204301075, "p_alert_ge1_scenario": 0.25268817204301075, "pred_stage": 0, "pred_cyano_max_approx": 914.8219233389235, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}, {"채수위치": "문의", "week_start_target": "2025-11-24", "p_alert_ge1_lgb": 0.0001687712499054717, "p_alert_ge1_ensemble": 0.0074044581268505475, "p_alert_ge1_calibrated": 0.14157706093189965, "p_alert_ge1_scenario": 0.14157706093189965, "pred_stage": 0, "pred_cyano_max_approx": 614.1945765110479, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}, {"채수위치": "추동", "week_start_target": "2025-11-24", "p_alert_ge1_lgb": 0.9999623876977412, "p_alert_ge1_ensemble": 0.9925096622193081, "p_alert_ge1_calibrated": 0.9111111111111111, "p_alert_ge1_scenario": 0.9111111111111111, "pred_stage": 1, "pred_cyano_max_approx": 8223.093872400921, "scenarios": [{"id": "SX", "title": "모델 기반 위험", "조건": "관심 이상 확률 약 91%, 예측 세포수(대략) 8223 cells/mL", "예상": "다음 주 관심 이상 가능성 상대적으로 큼", "권고": ["해당 지점 수질 모니터링 강화", "취수장 사전 대응·활성탄 등 준비", "방류량 조정 가능성 검토"]}]}, {"채수위치": "회남", "week_start_target": "2025-11-24", "p_alert_ge1_lgb": 0.00022572534028539318, "p_alert_ge1_ensemble": 0.00567791645349984, "p_alert_ge1_calibrated": 0.11379928315412186, "p_alert_ge1_scenario": 0.11379928315412186, "pred_stage": 0, "pred_cyano_max_approx": 1127.6958154793815, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}, {"채수위치": "문의", "week_start_target": "2025-12-01", "p_alert_ge1_lgb": 4.999891228859418e-05, "p_alert_ge1_ensemble": 0.0026639510985830665, "p_alert_ge1_calibrated": 0.032991202346041054, "p_alert_ge1_scenario": 0.032991202346041054, "pred_stage": 0, "pred_cyano_max_approx": 504.0880129911791, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}, {"채수위치": "추동", "week_start_target": "2025-12-01", "p_alert_ge1_lgb": 0.9998800552556204, "p_alert_ge1_ensemble": 0.9934658903215968, "p_alert_ge1_calibrated": 0.9111111111111111, "p_alert_ge1_scenario": 0.9111111111111111, "pred_stage": 1, "pred_cyano_max_approx": 3013.8509411379914, "scenarios": [{"id": "SX", "title": "모델 기반 위험", "조건": "관심 이상 확률 약 91%, 예측 세포수(대략) 3014 cells/mL", "예상": "다음 주 관심 이상 가능성 상대적으로 큼", "권고": ["해당 지점 수질 모니터링 강화", "취수장 사전 대응·활성탄 등 준비", "방류량 조정 가능성 검토"]}]}, {"채수위치": "회남", "week_start_target": "2025-12-01", "p_alert_ge1_lgb": 7.664504840945882e-07, "p_alert_ge1_ensemble": 0.0001924012764081347, "p_alert_ge1_calibrated": 0.0026881720430107525, "p_alert_ge1_scenario": 0.0026881720430107525, "pred_stage": 0, "pred_cyano_max_approx": 445.05146112870784, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}, {"채수위치": "문의", "week_start_target": "2025-12-08", "p_alert_ge1_lgb": 1.1863027941871345e-06, "p_alert_ge1_ensemble": 7.318150242839324e-05, "p_alert_ge1_calibrated": 0.0, "p_alert_ge1_scenario": 0.0, "pred_stage": 0, "pred_cyano_max_approx": 122.06296371291465, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}, {"채수위치": "추동", "week_start_target": "2025-12-08", "p_alert_ge1_lgb": 0.00034964945800153654, "p_alert_ge1_ensemble": 0.011424295253490648, "p_alert_ge1_calibrated": 0.11379928315412186, "p_alert_ge1_scenario": 0.11379928315412186, "pred_stage": 0, "pred_cyano_max_approx": 700.3605136630592, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}, {"채수위치": "회남", "week_start_target": "2025-12-08", "p_alert_ge1_lgb": 6.962251776392134e-07, "p_alert_ge1_ensemble": 8.721008074570124e-05, "p_alert_ge1_calibrated": 0.0, "p_alert_ge1_scenario": 0.0, "pred_stage": 0, "pred_cyano_max_approx": 179.35849644038078, "scenarios": [{"id": "S4", "title": "Chl-a·pH 상승", "조건": "클로로필-a 및 pH 상승 추세", "예상": "조류 생체량 증가 신호, 유해남조류 증가 가능성", "권고": ["조류 종 분석 강화", "발령단계 전환 모니터링"]}]}, {"채수위치": "문의", "week_start_target": "2025-12-15", "p_alert_ge1_lgb": 6.976287500156309e-07, "p_alert_ge1_ensemble": 8.547522653430542e-05, "p_alert_ge1_calibrated": 0.0, "p_alert_ge1_scenario": 0.0, "pred_stage": 0, "pred_cyano_max_approx": 63.63741846453313, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}, {"채수위치": "추동", "week_start_target": "2025-12-15", "p_alert_ge1_lgb": 2.772948381123398e-06, "p_alert_ge1_ensemble": 0.0002223572778294819, "p_alert_ge1_calibrated": 0.032991202346041054, "p_alert_ge1_scenario": 0.032991202346041054, "pred_stage": 0, "pred_cyano_max_approx": 576.0060846860835, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}, {"채수위치": "회남", "week_start_target": "2025-12-15", "p_alert_ge1_lgb": 3.490343072884133e-07, "p_alert_ge1_ensemble": 8.134937128459404e-05, "p_alert_ge1_calibrated": 0.0, "p_alert_ge1_scenario": 0.0, "pred_stage": 0, "pred_cyano_max_approx": 196.39380171701126, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}, {"채수위치": "문의", "week_start_target": "2025-12-22", "p_alert_ge1_lgb": 2.0045204585605854e-07, "p_alert_ge1_ensemble": 5.8106284702821643e-05, "p_alert_ge1_calibrated": 0.0, "p_alert_ge1_scenario": 0.0, "pred_stage": 0, "pred_cyano_max_approx": 41.69567897320254, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}, {"채수위치": "추동", "week_start_target": "2025-12-22", "p_alert_ge1_lgb": 1.5244412250081966e-06, "p_alert_ge1_ensemble": 6.379457629589415e-05, "p_alert_ge1_calibrated": 0.0026881720430107525, "p_alert_ge1_scenario": 0.0026881720430107525, "pred_stage": 0, "pred_cyano_max_approx": 179.9163763496122, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}, {"채수위치": "회남", "week_start_target": "2025-12-22", "p_alert_ge1_lgb": 3.072883880932603e-07, "p_alert_ge1_ensemble": 5.500843106155529e-05, "p_alert_ge1_calibrated": 0.0, "p_alert_ge1_scenario": 0.0, "pred_stage": 0, "pred_cyano_max_approx": 4.3916127668086435, "scenarios": [{"id": "S0", "title": "특이 패턴 없음", "조건": "주요 시나리오 조건 미충족", "예상": "상시 모니터링 유지", "권고": ["정기 관측 유지"]}]}]}</script>
+  <script>
+    const DATA = JSON.parse(document.getElementById('dash-payload').textContent);
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    // 1) 지점 카드
+    const siteRoot = document.getElementById('site-cards');
+    (DATA.site_cards || []).forEach(c => {
+      const div = document.createElement('div');
+      div.className = 'card';
+      const pw = Math.min(100, Number(c.p) || 0);
+      div.innerHTML = `
+        <h3>${esc(c.site)}</h3>
+        <div class="site-card-inner">
+          <div class="donut-wrap" style="--p:${pw}"><span>${c.p}%</span></div>
+          <div style="flex:1;min-width:0">
+            <div class="meta">기준 주 ${esc(c.week)}</div>
+            <div class="gauge"><i style="width:${pw}%"></i></div>
+            <div class="meta">관심 이상 · 예측 <strong style="color:var(--text)">${esc(c.stage)}</strong></div>
+            <div class="meta">세포수(대략) <strong>${esc(c.cyano)}</strong> cells/mL</div>
+            <span class="band ${esc(c.band_cls)}">${esc(c.band)}</span>
+          </div>
+        </div>`;
+      siteRoot.appendChild(div);
+    });
+    if (!DATA.site_cards || !DATA.site_cards.length) {
+      siteRoot.innerHTML = '<p class="meta">지점 카드 데이터 없음 — pipeline_weekly_say.py 실행 후 build_dashboard.py 를 다시 실행하세요.</p>';
+    }
+
+    // 2) 지표 타일
+    const chips = document.getElementById('metric-chips');
+    const m = DATA.model_metrics || {};
+    const addTile = (label, val) => {
+      const s = document.createElement('div');
+      s.className = 'stat-tile';
+      s.innerHTML = '<div class="v">' + esc(val) + '</div><div class="k">' + esc(label) + '</div>';
+      chips.appendChild(s);
+    };
+    if (m.binary_calibrated_isotonic_lgb) {
+      addTile('보정 이진 ROC-AUC', (m.binary_calibrated_isotonic_lgb.roc_auc || 0).toFixed(3));
+      addTile('관심↑ 재현율', (m.binary_calibrated_isotonic_lgb.recall_alert || 0).toFixed(2));
+    }
+    if (m.classification_stage) {
+      addTile('단계 정확도', (m.classification_stage.accuracy || 0).toFixed(2));
+    }
+    if (m.regression_log1p_cyano) {
+      addTile('세포수 회귀 R²', (m.regression_log1p_cyano.r2 || 0).toFixed(2));
+    }
+    const dd = DATA.daily_d7 || {};
+    if (dd.metrics && dd.metrics.lightgbm) {
+      addTile('일단위 D+7 정확도', (dd.metrics.lightgbm.accuracy || 0).toFixed(2));
+    }
+
+    // 3) 바
+    const fb = document.getElementById('factor-bars');
+    (DATA.bars || []).forEach(b => {
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+      row.innerHTML = `<label><span>${esc(b.label)}</span><b>${b.pct}%</b></label>
+        <div class="bar-bg"><div class="bar-fg" style="width:${b.pct}%"></div></div>`;
+      fb.appendChild(row);
+    });
+    document.getElementById('hint-top').textContent = DATA.hint_top
+      ? '상위 특성: ' + DATA.hint_top
+      : '';
+
+    // 4) 시나리오: 최근 6행만 카드
+    const scBox = document.getElementById('scenario-box');
+    const tl = (DATA.timeline || []).slice(-6);
+    tl.forEach(row => {
+      const scs = row.scenarios || [];
+      if (!scs.length) return;
+      scs.slice(0, 2).forEach(sc => {
+        const el = document.createElement('div');
+        el.className = 'sc-item';
+        const ul = (sc.권고 || []).map(x => '<li>' + esc(x) + '</li>').join('');
+        el.innerHTML = `<h4>${esc(row.week_start_target)} · ${esc(row.채수위치)} — ${esc(sc.title)}</h4>
+          <p><strong>조건</strong> ${esc(sc.조건)}</p>
+          <p><strong>예상</strong> ${esc(sc.예상)}</p>
+          <ul>${ul}</ul>`;
+        scBox.appendChild(el);
+      });
+    });
+
+    // 타임라인 막대 + 테이블
+    const tlRows = (DATA.timeline || []).slice(-14);
+    const tv = document.getElementById('timeline-visual');
+    const tvTitle = document.createElement('h3');
+    tvTitle.textContent = '관심 이상 확률 막대 (최근 ' + tlRows.length + '건)';
+    tv.appendChild(tvTitle);
+    tlRows.forEach(row => {
+      const p = (row.p_alert_ge1_scenario != null ? row.p_alert_ge1_scenario : row.p_alert_ge1_calibrated) || 0;
+      const pct = Math.min(100, p * 100);
+      let fcls = 'low';
+      if (pct >= 50) fcls = 'high';
+      else if (pct >= 30) fcls = 'mid';
+      const div = document.createElement('div');
+      div.className = 'tl-item';
+      div.innerHTML = '<div class="tl-track"><div class="tl-fill ' + fcls + '" style="width:' + pct.toFixed(1) + '%"></div></div>'
+        + '<div class="tl-cap">' + esc(row.week_start_target) + ' · ' + esc(row.채수위치)
+        + ' <strong>' + pct.toFixed(1) + '%</strong></div>';
+      tv.appendChild(div);
+    });
+
+    const tb = document.getElementById('timeline-body');
+    tlRows.forEach(row => {
+      const tr = document.createElement('tr');
+      const p = (row.p_alert_ge1_scenario != null ? row.p_alert_ge1_scenario : row.p_alert_ge1_calibrated) || 0;
+      tr.innerHTML = `<td>${esc(row.week_start_target)}</td><td>${esc(row.채수위치)}</td>
+        <td>${(p*100).toFixed(1)}</td><td>${esc(row.pred_stage)}</td>
+        <td>${Math.round(row.pred_cyano_max_approx || 0)}</td>`;
+      tb.appendChild(tr);
+    });
+
+    (function() {
+      const tabs = document.querySelectorAll('.fig-tab');
+      const panels = document.querySelectorAll('.fig-panel');
+      tabs.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabs.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+          panels.forEach(p => { p.classList.remove('is-active'); });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+          const id = btn.getAttribute('data-tab') === 'w' ? 'fig-panel-w' : 'fig-panel-d';
+          const el = document.getElementById(id);
+          if (el) el.classList.add('is-active');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

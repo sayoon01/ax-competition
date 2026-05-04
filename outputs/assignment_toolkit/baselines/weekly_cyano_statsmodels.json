@@ -1,0 +1,29 @@
+{
+  "by_site": [
+    {
+      "채수위치": "문의",
+      "n": 521,
+      "holdout_n": 79,
+      "mae_naive_persist": 2549.986046009359,
+      "mae_exp_smooth_1step": 6910.854267797043,
+      "exp_smooth_error": null
+    },
+    {
+      "채수위치": "추동",
+      "n": 521,
+      "holdout_n": 79,
+      "mae_naive_persist": 2179.319613888845,
+      "mae_exp_smooth_1step": 6569.756931243668,
+      "exp_smooth_error": null
+    },
+    {
+      "채수위치": "회남",
+      "n": 521,
+      "holdout_n": 79,
+      "mae_naive_persist": 7326.433879489334,
+      "mae_exp_smooth_1step": 11188.009295356322,
+      "exp_smooth_error": null
+    }
+  ],
+  "note": "naive는 검증 구간에서 직전 값으로 다음 주를 맞춘 주간 persistence MAE"
+}
