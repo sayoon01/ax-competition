@@ -87,12 +87,12 @@
       {
         "f1": "lw1_total_cyano_mean",
         "f2": "lw2_mean_수온(℃)_mean",
-        "mean_abs_interaction": 0.05775019474891752
+        "mean_abs_interaction": 0.05775019474891753
       },
       {
         "f1": "lw1_total_cyano_mean",
         "f2": "lw4_mean_일강수_주합_mm",
-        "mean_abs_interaction": 0.04941111268193799
+        "mean_abs_interaction": 0.049411112681938006
       },
       {
         "f1": "lw1_total_cyano_mean",
@@ -107,7 +107,7 @@
       {
         "f1": "lw1_total_cyano_max",
         "f2": "lw2_mean_수온(℃)_mean",
-        "mean_abs_interaction": 0.03272759194205927
+        "mean_abs_interaction": 0.03272759194205925
       },
       {
         "f1": "lw1_total_cyano_max",
@@ -117,7 +117,7 @@
       {
         "f1": "lw1_total_cyano_max",
         "f2": "lw4_mean_일강수_주합_mm",
-        "mean_abs_interaction": 0.02931697242469789
+        "mean_abs_interaction": 0.02931697242469788
       },
       {
         "f1": "lw1_total_cyano_max",

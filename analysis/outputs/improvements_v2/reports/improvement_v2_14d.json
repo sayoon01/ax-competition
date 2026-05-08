@@ -1,0 +1,23 @@
+{
+  "result_14day": {
+    "lead_days": 14,
+    "n_features": 161,
+    "thr_boundary": 0.11000000000000001,
+    "thr_caution": 0.15000000000000002,
+    "metrics": {
+      "accuracy": 0.8173,
+      "macro_f1": 0.6095,
+      "alert_recall": 0.9333,
+      "alert_precision": 0.9488,
+      "alert_f1": 0.941,
+      "boundary_recall": 0.1728
+    },
+    "shap_top5": [
+      "total_cyano",
+      "수온(℃)",
+      "gdd14",
+      "microcystis",
+      "수온(℃)_lag1"
+    ]
+  }
+}

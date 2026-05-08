@@ -1,0 +1,175 @@
+{
+  "task1_threshold": {
+    "macro_f1_optimal": {
+      "thr_boundary": 0.12000000000000001,
+      "thr_caution": 0.30000000000000004,
+      "metrics": {
+        "accuracy": 0.8061,
+        "macro_f1": 0.586,
+        "alert_recall": 0.9274,
+        "alert_precision": 0.9357,
+        "alert_f1": 0.9315,
+        "boundary_recall": 0.1473
+      }
+    },
+    "cost_optimal": {
+      "thr_boundary": 0.05,
+      "thr_caution": 0.15000000000000002,
+      "metrics": {
+        "accuracy": 0.8182,
+        "macro_f1": 0.6631,
+        "alert_recall": 0.957,
+        "alert_precision": 0.901,
+        "alert_f1": 0.9282,
+        "boundary_recall": 0.5241
+      }
+    },
+    "recall70_constrained": {
+      "thr_boundary": 0.05,
+      "thr_caution": 0.15000000000000002,
+      "metrics": {
+        "accuracy": 0.8182,
+        "macro_f1": 0.6631,
+        "alert_recall": 0.957,
+        "alert_precision": 0.901,
+        "alert_f1": 0.9282,
+        "boundary_recall": 0.5241
+      }
+    }
+  },
+  "task2_site_model": {
+    "site_metrics": {
+      "문의": {
+        "accuracy": 0.1776,
+        "macro_f1": 0.1006,
+        "alert_recall": 1.0,
+        "alert_precision": 0.3217,
+        "alert_f1": 0.4868,
+        "boundary_recall": 1.0
+      },
+      "추동": {
+        "accuracy": 0.8,
+        "macro_f1": 0.5531,
+        "alert_recall": 0.9787,
+        "alert_precision": 0.9274,
+        "alert_f1": 0.9524,
+        "boundary_recall": 0.05
+      },
+      "회남": {
+        "accuracy": 0.7762,
+        "macro_f1": 0.5255,
+        "alert_recall": 0.8238,
+        "alert_precision": 0.9058,
+        "alert_f1": 0.8628,
+        "boundary_recall": 0.5283
+      }
+    },
+    "aggregated": {
+      "accuracy": 0.5846,
+      "macro_f1": 0.4852,
+      "alert_recall": 0.9378,
+      "alert_precision": 0.5485,
+      "alert_f1": 0.6922,
+      "boundary_recall": 0.5354
+    },
+    "full_model_ref": {
+      "accuracy": 0.8182,
+      "macro_f1": 0.6631,
+      "alert_recall": 0.957,
+      "alert_precision": 0.901,
+      "alert_f1": 0.9282,
+      "boundary_recall": 0.5241
+    }
+  },
+  "task3_exog14": {
+    "lead_days": 14,
+    "n_exog_features": 79,
+    "metrics": {
+      "accuracy": 0.7396,
+      "macro_f1": 0.545,
+      "alert_recall": 0.8844,
+      "alert_precision": 0.8078,
+      "alert_f1": 0.8444,
+      "boundary_recall": 0.5326
+    },
+    "shap_top5": [
+      "수온(℃)",
+      "sin_month",
+      "탁도",
+      "수온(℃)_lag7",
+      "수온(℃)_lag3"
+    ]
+  },
+  "task4_conformal": {
+    "alpha": 0.1,
+    "calibration_quantile": 0.09979310222142113,
+    "test_alert_coverage": 0.5259,
+    "test_normal_specificity": 0.9939,
+    "alpha_tradeoff": [
+      {
+        "alpha": 0.05,
+        "coverage": 0.75,
+        "specificity": 0.992
+      },
+      {
+        "alpha": 0.1,
+        "coverage": 0.526,
+        "specificity": 0.994
+      },
+      {
+        "alpha": 0.15,
+        "coverage": 0.387,
+        "specificity": 0.995
+      },
+      {
+        "alpha": 0.2,
+        "coverage": 0.244,
+        "specificity": 1.0
+      },
+      {
+        "alpha": 0.25,
+        "coverage": 0.13,
+        "specificity": 1.0
+      },
+      {
+        "alpha": 0.3,
+        "coverage": 0.096,
+        "specificity": 1.0
+      },
+      {
+        "alpha": 0.35,
+        "coverage": 0.083,
+        "specificity": 1.0
+      },
+      {
+        "alpha": 0.4,
+        "coverage": 0.074,
+        "specificity": 1.0
+      },
+      {
+        "alpha": 0.45,
+        "coverage": 0.071,
+        "specificity": 1.0
+      }
+    ]
+  },
+  "task5_lstm_ensemble": {
+    "lstm_only": {
+      "accuracy": 0.777,
+      "macro_f1": 0.6354,
+      "alert_recall": 0.9822,
+      "alert_precision": 0.8056,
+      "alert_f1": 0.8852,
+      "boundary_recall": 0.5496
+    },
+    "ensemble_optimal": {
+      "accuracy": 0.7841,
+      "macro_f1": 0.6378,
+      "alert_recall": 0.9852,
+      "alert_precision": 0.823,
+      "alert_f1": 0.8968,
+      "boundary_recall": 0.5722
+    },
+    "best_lgb_weight": 0.3
+  }
+}

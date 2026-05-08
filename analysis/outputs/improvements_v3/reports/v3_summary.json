@@ -1,0 +1,46 @@
+{
+  "note": "임계값 탐색: Train 2016-2022 모델 → Val 2023. 최종 모델: Train 2016-2023. Test: 2024-2025.",
+  "result_7day": {
+    "train": "2016-2023",
+    "test": "2024-2025",
+    "thr_boundary": 0.005,
+    "thr_caution": 0.1,
+    "metrics": {
+      "accuracy": 0.8643,
+      "macro_f1": 0.7378,
+      "alert_recall": 0.9437,
+      "alert_precision": 0.9479,
+      "alert_f1": 0.9458,
+      "boundary_recall": 0.4703
+    },
+    "shap_top5": [
+      "total_cyano",
+      "수온(℃)_lag7",
+      "gdd14",
+      "탁도",
+      "microcystis"
+    ]
+  },
+  "result_14day": {
+    "train": "2016-2023",
+    "test": "2024-2025",
+    "n_exog_features": 79,
+    "thr_boundary": 0.005,
+    "thr_caution": 0.1,
+    "metrics": {
+      "accuracy": 0.7952,
+      "macro_f1": 0.6084,
+      "alert_recall": 0.8148,
+      "alert_precision": 0.9434,
+      "alert_f1": 0.8744,
+      "boundary_recall": 0.3626
+    },
+    "shap_top5": [
+      "탁도",
+      "sin_month",
+      "gdd14",
+      "수온(℃)",
+      "수온(℃)_lag7"
+    ]
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "model_info": {
+    "algorithm": "LightGBM MultiClass",
+    "lead_days": 7,
+    "n_features": 161,
+    "best_iteration": 105,
+    "classes": [
+      "미발령",
+      "관심",
+      "경계"
+    ]
+  },
+  "metrics": {
+    "lead_days": 7,
+    "test_period": "2024-01-01 ~ 2025-12-22",
+    "accuracy": 0.8061,
+    "macro_f1": 0.586,
+    "weighted_f1": 0.7858,
+    "alert_precision": 0.9357,
+    "alert_recall": 0.9274,
+    "alert_f1": 0.9315
+  },
+  "top10_features": [
+    {
+      "feature": "total_cyano",
+      "mean_abs_shap": 1.400445648328744
+    },
+    {
+      "feature": "수온(℃)_lag7",
+      "mean_abs_shap": 0.4431302217818071
+    },
+    {
+      "feature": "탁도",
+      "mean_abs_shap": 0.286070020143971
+    },
+    {
+      "feature": "수온(℃)_roll7m",
+      "mean_abs_shap": 0.25959937431331315
+    },
+    {
+      "feature": "total_cyano_lag1",
+      "mean_abs_shap": 0.23946373743092558
+    },
+    {
+      "feature": "microcystis",
+      "mean_abs_shap": 0.19851865437066124
+    },
+    {
+      "feature": "aphanizomenon_roll14m",
+      "mean_abs_shap": 0.15957228326577977
+    },
+    {
+      "feature": "gdd14",
+      "mean_abs_shap": 0.15798343256259706
+    },
+    {
+      "feature": "수온(℃)_lag1",
+      "mean_abs_shap": 0.12044428979182992
+    },
+    {
+      "feature": "수온(℃)_lag3",
+      "mean_abs_shap": 0.11949230205313602
+    }
+  ],
+  "scenario_definitions": {
+    "S1_고온건조": {
+      "desc": "기온 ≥28°C & 일사량 ≥18 MJ/m2 & 강수 ≤2mm (7일 누적)",
+      "actions": [
+        "조류 모니터링 주 2회 이상 강화",
+        "취수구 심층수 전환 검토",
+        "조류제거선 사전 대기"
+      ]
+    },
+    "S2_저수위_체류": {
+      "desc": "저수율 ≤ 50% & 유입량 감소 & 수온 ≥25°C",
+      "actions": [
+        "방류량 증가로 체류시간 단축",
+        "상류 지류 수질 모니터링",
+        "녹조방지 포기장치 가동"
+      ]
+    },
+    "S3_관심단계_진입": {
+      "desc": "관심 발령 확률 ≥ 0.4 또는 직전 stage=관심",
+      "actions": [
+        "상수도 조류독소(MC-LR) 검사 실시",
+        "정수처리 PAC 투입량 증가",
+        "민원 선제적 공지 준비"
+      ]
+    },
+    "S4_경계단계_임박": {
+      "desc": "경계 발령 확률 ≥ 0.3 또는 유해남조류 ≥ 5,000 cells/mL",
+      "actions": [
+        "경계 경보 발령 준비 및 관계기관 사전 통보",
+        "취수 중단 시나리오 검토",
+        "황토 살포 등 긴급 제거 조치",
+        "유역 내 비점오염원 점검 강화"
+      ]
+    },
+    "S5_강우_후_유입": {
+      "desc": "7일 누적 강수 ≥ 30mm 후 고온 전환",
+      "actions": [
+        "강우 후 비점오염 유입 모니터링",
+        "댐 유입구 탁도/T-N, T-P 측정",
+        "향후 7~14일 남조류 급증 위험 주의보 발령"
+      ]
+    }
+  },
+  "data_sources": [
+    "환경부 물환경정보시스템 (water.nier.go.kr): 수질/조류 현장측정 데이터",
+    "기상청 기상자료개방포털 (data.kma.go.kr): 일별 기온·강수·일사량·풍속·습도",
+    "K-water 대청댐 운영현황: 수위·저수량·유입량·방류량",
+    "기후에너지환경부 조류경보제 운영지침: 발령 기준 및 단계 정의"
+  ]
+}

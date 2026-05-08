@@ -1,0 +1,3 @@
+﻿year,n,accuracy,macro_f1,alert_recall,alert_precision,alert_f1,boundary_recall
+2024,1098,0.8616,0.6711,0.9755,0.9362,0.9555,0.3235
+2025,1047,0.8204,0.6654,0.91,0.962,0.9353,0.2404

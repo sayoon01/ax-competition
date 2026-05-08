@@ -1,0 +1,42 @@
+{
+  "two_stage": {
+    "metrics": {
+      "accuracy": 0.8573,
+      "macro_f1": 0.7214,
+      "alert_recall": 0.963,
+      "alert_precision": 0.9286,
+      "alert_f1": 0.9455,
+      "boundary_recall": 0.3853
+    },
+    "stage1_thr": 0.011,
+    "stage2_thr": 0.014000000000000002
+  },
+  "year_weighted": {
+    "metrics": {
+      "accuracy": 0.8704,
+      "macro_f1": 0.7544,
+      "alert_recall": 0.9481,
+      "alert_precision": 0.9453,
+      "alert_f1": 0.9467,
+      "boundary_recall": 0.5779
+    },
+    "year_boost": {
+      "2017": 3.0,
+      "2020": 3.0,
+      "2022": 2.0,
+      "2023": 4.0
+    },
+    "thr_boundary": 0.005
+  },
+  "ensemble": {
+    "metrics": {
+      "accuracy": 0.8653,
+      "macro_f1": 0.7455,
+      "alert_recall": 0.9674,
+      "alert_precision": 0.9249,
+      "alert_f1": 0.9457,
+      "boundary_recall": 0.4731
+    },
+    "best_weight_2stage": 0.3
+  }
+}

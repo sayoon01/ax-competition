@@ -1,0 +1,147 @@
+{
+  "summer_phases": {
+    "6": {
+      "label": "6월(준비)",
+      "air_temp_mean": 23.2,
+      "water_temp_mean": 18.7,
+      "cyano_mean": 77.0,
+      "boundary_rate": 0.0,
+      "n": 900
+    },
+    "7": {
+      "label": "7월(진입)",
+      "air_temp_mean": 26.3,
+      "water_temp_mean": 22.7,
+      "cyano_mean": 856.0,
+      "boundary_rate": 0.5,
+      "n": 930
+    },
+    "8": {
+      "label": "8월(최고위험)",
+      "air_temp_mean": 26.8,
+      "water_temp_mean": 24.9,
+      "cyano_mean": 10041.0,
+      "boundary_rate": 22.8,
+      "n": 930
+    },
+    "9": {
+      "label": "9월(지연위험)",
+      "air_temp_mean": 22.0,
+      "water_temp_mean": 24.1,
+      "cyano_mean": 8446.0,
+      "boundary_rate": 24.0,
+      "n": 900
+    }
+  },
+  "lag_correlation": {
+    "lag_0d": 0.834,
+    "lag_3d": 0.857,
+    "lag_7d": 0.882,
+    "lag_10d": 0.898,
+    "lag_14d": 0.915,
+    "lag_21d": 0.936
+  },
+  "best_lag": 21,
+  "avg_boundary_after_cross": 1.47,
+  "scenario_stats": {
+    "S-RED": {
+      "n": 39,
+      "boundary_rate": 41.0
+    },
+    "S-ORA": {
+      "n": 162,
+      "boundary_rate": 14.2
+    },
+    "S-YEL": {
+      "n": 48,
+      "boundary_rate": 12.5
+    },
+    "S-GRN": {
+      "n": 10671,
+      "boundary_rate": 4.5
+    }
+  },
+  "hydraulic_matrix": {
+    "drop_boundary_rate": 10.5,
+    "rise_boundary_rate": 8.0
+  },
+  "stress_index": {
+    "csi_q75": 5.0,
+    "csi_q90": 2.4,
+    "high_stress_boundary_rate": 20.4,
+    "low_stress_boundary_rate": 3.7
+  },
+  "transition_counts": {
+    "0→1": 43,
+    "1→2": 23,
+    "2→0": 0,
+    "1→0": 43,
+    "0→0": 8655,
+    "1→1": 1625,
+    "2→2": 505
+  },
+  "delayed_bloom": {
+    "폭염(11일+기온28+)": {
+      "events": 6,
+      "hit_rate": 50.0,
+      "median_delay": 1.0
+    },
+    "집중호우(7일30mm+)": {
+      "events": 108,
+      "hit_rate": 13.0,
+      "median_delay": 1.0
+    },
+    "방류급감소(7일-50↓)": {
+      "events": 35,
+      "hit_rate": 37.1,
+      "median_delay": 2.0
+    }
+  },
+  "species_by_wt": {
+    "<20°C": {
+      "dominance": {
+        "마이크로시스티스": 21.8,
+        "아나베나": 14.8,
+        "오실라토리아": 12.4,
+        "아파니조메논": 40.5
+      },
+      "dominant_species": "아파니조메논",
+      "boundary_rate": 0.4
+    },
+    "20-25°C": {
+      "dominance": {
+        "마이크로시스티스": 58.2,
+        "아나베나": 14.8,
+        "오실라토리아": 8.9,
+        "아파니조메논": 16.6
+      },
+      "dominant_species": "마이크로시스티스",
+      "boundary_rate": 8.6
+    },
+    "25-28°C": {
+      "dominance": {
+        "마이크로시스티스": 62.0,
+        "아나베나": 7.5,
+        "오실라토리아": 10.4,
+        "아파니조메논": 19.4
+      },
+      "dominant_species": "마이크로시스티스",
+      "boundary_rate": 24.1
+    },
+    ">28°C": {
+      "dominance": {
+        "마이크로시스티스": 64.5,
+        "아나베나": 3.5,
+        "오실라토리아": 8.1,
+        "아파니조메논": 20.4
+      },
+      "dominant_species": "마이크로시스티스",
+      "boundary_rate": 53.1
+    }
+  },
+  "fn_analysis": {
+    "유형A: 급격한 환경 변화": 111,
+    "유형C: 계절 이상 (9월↓)": 66,
+    "유형B: 극단 강수 이후 OOD": 9
+  }
+}
